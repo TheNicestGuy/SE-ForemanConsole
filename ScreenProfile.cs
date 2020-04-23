@@ -82,6 +82,28 @@ namespace IngameScript
                 , CockpitLargeKeyboard // Lower center, between pilot's hands
                 , CockpitLargeLowerLeft
                 , CockpitLargeLowerRight
+                , ProgrammableSmallMain // Programmable block console screen
+                , ProgrammableSmallKeyboard // Programmable block "keyboard" screen
+                , LCDWideSmall
+                , ControlSeatSmall // Stand-alone seat with one low-profile screen
+                // Small-ship enclosed cockpit, standard
+                , CockpitSmallCenter
+                , CockpitSmallLeft
+                , CockpitSmallRight
+                , CockpitSmallKeyboard // Between pilot's knees
+                // Small-ship enclosed cockpit, fighter style
+                , FighterSmallTopCenter // Not rectangular. Has a trapezoidal mask.
+                , FighterSmallTopLeft
+                , FighterSmallTopRight
+                , FighterSmallKeyboard // In front of pilot's legs
+                , FighterSmallBottomCenter // Between pilot's knees. Not rectangular; slightly tapered.
+                , FighterSmallNumpad // Forward of right stick. Sideways.
+                // Small-ship enclosed cockpit, industrial style
+                , IndustrialSmallLeft
+                , IndustrialSmallCenter
+                , IndustrialSmallRight
+                , IndustrialSmallKeyboard // Between operator's hands
+                , IndustrialSmallNumpad // On right arm rest. Barely visible.
             }
 
             private static IDictionary<StandardScreens, ScreenProfile> _standardScreenProfiles;
@@ -183,7 +205,6 @@ namespace IngameScript
                             , new ScreenProfile(SizeClasses.Small, 1.3f, 8)
                         }
                         ,
-                        // This screen does exist, but it's practically impossible to see in the game.
                         {
                             StandardScreens.IndustrialLargeNumpad
                             , new ScreenProfile(SizeClasses.Tiny, 1.0f, 1)
@@ -217,6 +238,106 @@ namespace IngameScript
                         {
                             StandardScreens.CockpitLargeLowerRight
                             , new ScreenProfile(SizeClasses.Small, 1.65f, 8)
+                        }
+                        ,
+                        {
+                            StandardScreens.ProgrammableSmallMain
+                            , new ScreenProfile(SizeClasses.Medium, 1.32f, 13)
+                        }
+                        ,
+                        {
+                            StandardScreens.ProgrammableSmallKeyboard
+                            , new ScreenProfile(SizeClasses.Small, 1.6f, 8)
+                        }
+                        ,
+                        {
+                            StandardScreens.LCDWideSmall
+                            , new ScreenProfile(SizeClasses.Large, 1.58f, 11)
+                        }
+                        ,
+                        {
+                            StandardScreens.ControlSeatSmall
+                            , new ScreenProfile(SizeClasses.Medium, 1.15f, 9)
+                        }
+                        ,
+                        {
+                            StandardScreens.CockpitSmallCenter
+                            , new ScreenProfile(SizeClasses.Medium, 1.32f, 13)
+                        }
+                        ,
+                        {
+                            StandardScreens.CockpitSmallLeft
+                            , new ScreenProfile(SizeClasses.Small, 1.45f, 9)
+                        }
+                        ,
+                        {
+                            StandardScreens.CockpitSmallRight
+                            , new ScreenProfile(SizeClasses.Small, 1.45f, 9)
+                        }
+                        ,
+                        {
+                            StandardScreens.CockpitSmallKeyboard
+                            , new ScreenProfile(SizeClasses.Small, 1.33f, 9)
+                        }
+                        ,
+                        {
+                            // The fighter's main screen is not rectangular. It's more of a
+                            // trapezoid, so if the text is not center aligned, some is guaranteed
+                            // to be cut off.
+                            StandardScreens.FighterSmallTopCenter
+                            , new ScreenProfile(SizeClasses.Small, 1.15f, 9)
+                        }
+                        ,
+                        {
+                            StandardScreens.FighterSmallTopLeft
+                            , new ScreenProfile(SizeClasses.Tiny, 2.25f, 5)
+                        }
+                        ,
+                        {
+                            StandardScreens.FighterSmallTopRight
+                            , new ScreenProfile(SizeClasses.Tiny, 2.25f, 5)
+                        }
+                        ,
+                        {
+                            StandardScreens.FighterSmallKeyboard
+                            , new ScreenProfile(SizeClasses.Small, 2.8f, 5)
+                        }
+                        ,
+                        {
+                            // This screen is also not rectangular, but slightly tapered at the
+                            // bottom. Center alignment is recommended.
+                            StandardScreens.FighterSmallBottomCenter
+                            , new ScreenProfile(SizeClasses.Tiny, 2.9f, 6)
+                        }
+                        ,
+                        {
+                            StandardScreens.FighterSmallNumpad
+                            , new ScreenProfile(SizeClasses.Tiny, 2.5f, 7)
+                        }
+                        ,
+                        {
+                            StandardScreens.IndustrialSmallLeft
+                            , new ScreenProfile(SizeClasses.Medium, 1.25f, 10)
+                        }
+                        ,
+                        {
+                            StandardScreens.IndustrialSmallCenter
+                            , new ScreenProfile(SizeClasses.Medium, 1.15f, 10)
+                        }
+                        ,
+                        {
+                            StandardScreens.IndustrialSmallRight
+                            , new ScreenProfile(SizeClasses.Medium, 1.25f, 10)
+                        }
+                        ,
+                        {
+                            StandardScreens.IndustrialSmallKeyboard
+                            , new ScreenProfile(SizeClasses.Small, 2.15f, 8)
+                        }
+                        ,
+                        {
+                            StandardScreens.IndustrialSmallNumpad
+                            , new ScreenProfile(SizeClasses.Medium, 1.0f, 17)
                         }
                     };
                 }
@@ -321,6 +442,52 @@ namespace IngameScript
                             return StandardScreens.CockpitLargeLowerLeft;
                         if (5 == surfaceIndex)
                             return StandardScreens.CockpitLargeLowerRight;
+                        break;
+                    case "MyObjectBuilder_MyProgrammableBlock/SmallProgrammableBlock":
+                        if (0 == surfaceIndex)
+                            return StandardScreens.ProgrammableSmallMain;
+                        if (1 == surfaceIndex)
+                            return StandardScreens.ProgrammableSmallKeyboard;
+                        break;
+                    case "MyObjectBuilder_TextPanel/SmallLCDPanelWide":
+                        return StandardScreens.LCDWideSmall;
+                    case "MyObjectBuilder_Cockpit/OpenCockpitSmall":
+                        return StandardScreens.ControlSeatSmall;
+                    case "MyObjectBuilder_Cockpit/SmallBlockCockpit":
+                        if (0 == surfaceIndex)
+                            return StandardScreens.CockpitSmallCenter;
+                        if (1 == surfaceIndex)
+                            return StandardScreens.CockpitSmallLeft;
+                        if (2 == surfaceIndex)
+                            return StandardScreens.CockpitSmallRight;
+                        if (3 == surfaceIndex)
+                            return StandardScreens.CockpitSmallKeyboard;
+                        break;
+                    case "MyObjectBuilder_Cockpit/DBSmallBlockFighterCockpit":
+                        if (0 == surfaceIndex)
+                            return StandardScreens.FighterSmallTopCenter;
+                        if (1 == surfaceIndex)
+                            return StandardScreens.FighterSmallTopLeft;
+                        if (2 == surfaceIndex)
+                            return StandardScreens.FighterSmallTopRight;
+                        if (3 == surfaceIndex)
+                            return StandardScreens.FighterSmallKeyboard;
+                        if (4 == surfaceIndex)
+                            return StandardScreens.FighterSmallBottomCenter;
+                        if (5 == surfaceIndex)
+                            return StandardScreens.FighterSmallNumpad;
+                        break;
+                    case "MyObjectBuilder_Cockpit/SmallBlockCockpitIndustrial":
+                        if (0 == surfaceIndex)
+                            return StandardScreens.IndustrialSmallLeft;
+                        if (1 == surfaceIndex)
+                            return StandardScreens.IndustrialSmallCenter;
+                        if (2 == surfaceIndex)
+                            return StandardScreens.IndustrialSmallRight;
+                        if (3 == surfaceIndex)
+                            return StandardScreens.IndustrialSmallKeyboard;
+                        if (4 == surfaceIndex)
+                            return StandardScreens.IndustrialSmallNumpad;
                         break;
                 }
                 throw new Exception(
